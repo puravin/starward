@@ -48,9 +48,6 @@ module.exports = {
         new webpack.optimize.UglifyJsPlugin({
           sourceMap: true
         }),
-        new webpack.BannerPlugin(
-          'require("source-map-support").install();',
-          { raw: true, entryOnly: false }
-        )
+        new webpack.BannerPlugin({banner: 'Banner', raw: true, entryOnly: false })
     ],
 };

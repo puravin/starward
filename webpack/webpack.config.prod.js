@@ -105,7 +105,6 @@ module.exports = [
         // Order the modules and chunks by occurrence.
         // This saves space, because often referenced modules
         // and chunks get smaller ids.
-        new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.EnvironmentPlugin(['NODE_ENV']),
         new webpack.IgnorePlugin(/vertx/),
         new webpack.optimize.UglifyJsPlugin({
@@ -113,10 +112,7 @@ module.exports = [
             warnings: false
           }
         }),
-        new webpack.BannerPlugin(
-          'require("source-map-support").install();',
-          { raw: true, entryOnly: false }
-        )
+        new webpack.BannerPlugin({banner: 'Banner', raw: true, entryOnly: false })
     ],
   }
 ];
