@@ -25,7 +25,7 @@ var commonLoaders = [
   },
   {
     test: /\.scss$/,
-    loader: 'style!css!sass!import-glob',
+    use: ['style-loader', 'css-loader', 'sass-loader', 'import-glob-loader'],
     include: path.join( __dirname, '..', 'public/assets/sass')
   },
   {
@@ -84,29 +84,47 @@ module.exports = {
       // The output path from the view of the Javascript
       publicPath: publicPath
     },
-    sassLoader: {
-      includePaths: [ path.join( __dirname, '..', 'public/assets/sass') ]
-    },
+    // sassLoader: {
+    //   includePaths: [ path.join( __dirname, '..', 'public/assets/sass') ]
+    // },
     module: {
       rules: commonLoaders
-      .concat({
+      .concat(
+        {
+          test: /\.scss$/,
+          loader: 'sass-loader',
+          options: {
+            includePaths: [ path.join( __dirname, '..', 'public/assets/sass') ]
+          }
+        },
+        {
           test: /\.css$/,
           use: ['style-loader', 'css-loader']
-        })
-    },
-    postcss: () => {
-      return [
-        require('precss'),
-        require('autoprefixer')
-      ];
+        },
+        {
+
+        }
+        )
     },
     resolve: {
-      modules: [path.join(__dirname, '..', 'app')],
-      extensions: ['', '.js', '.jsx', '.css']
+      modules: [
+        path.join(__dirname, '..', 'app'),
+        'node_modules'
+      ],
+      extensions: ['*', '.js', '.jsx', '.css']
     },
     plugins: [
+        new webpack.LoaderOptionsPlugin({
+          loader: 'postcss-loader',
+          options: {
+            plugins: (loader) => [
+              require('precss')(),
+              require('autoprefixer')(),
+            ]
+          }
+        }),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.EnvironmentPlugin(['NODE_ENV']),
         new webpack.optimize.UglifyJsPlugin({
           sourceMap: true

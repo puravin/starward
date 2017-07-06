@@ -53,14 +53,17 @@ module.exports = [
           test: /\.scss$/i,
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
-            use: ['css-loader', 'sass-loader', 'import-glob']
+            use: ['css-loader', 'sass-loader', 'import-glob-loader']
           })
         }
       )
     },
     resolve: {
-      modules: [path.join(__dirname, '..', 'app')],
-      extensions: ['', '.js', '.jsx', '.css']
+      modules: [
+        path.join(__dirname, '..', 'app'),
+        'node_modules'
+      ],
+      extensions: ['*', '.js', '.jsx', '.css']
     },
     plugins: [
         // extract inline css from modules into separate files
@@ -104,8 +107,11 @@ module.exports = [
       })
     },
     resolve: {
-      modules: [path.join(__dirname, '..', 'app')],
-      extensions: ['', '.js', '.jsx', '.css']
+      modules: [
+        path.join(__dirname, '..', 'app'),
+        'node_modules'
+      ],
+      extensions: ['*', '.js', '.jsx', '.css']
     },
     externals: externals,
     plugins: [
@@ -120,7 +126,11 @@ module.exports = [
             drop_console: true
           }
         }),
-        new webpack.BannerPlugin({banner: 'Banner', raw: true, entryOnly: false })
+        new webpack.BannerPlugin({
+          banner: 'require("source-map-support").install();', 
+          raw: true, 
+          entryOnly: false 
+        })
     ],
   }
 ];

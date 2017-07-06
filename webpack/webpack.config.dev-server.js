@@ -28,18 +28,29 @@ module.exports = {
       publicPath: publicPath,
       libraryTarget: 'commonjs2'
     },
-    sassLoader: {
-      includePaths: [ '../public/assets/sass' ]
-    },
+    // sassLoader: {
+    //   includePaths: [ '../public/assets/sass' ]
+    // },
     module: {
-      rules: commonLoaders.concat({
+      rules: commonLoaders.concat(
+      {
+        test: /\.scss$/,
+        loader: 'sass-loader',
+        options: {
+          includePaths: ['../public/assets/sass']
+        }
+      },
+      {
         test: /\.css$/,
         use: 'css/locals?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
       })
     },
     resolve: {
-      modules: [path.join(__dirname, '..', 'app')],
-      extensions: ['', '.js', '.jsx', '.css']
+      modules: [
+        path.join(__dirname, '..', 'app'),
+        'node_modules'
+      ],
+      extensions: ['*', '.js', '.jsx', '.css']
     },
     externals: externals,
     plugins: [
@@ -48,6 +59,10 @@ module.exports = {
         new webpack.optimize.UglifyJsPlugin({
           sourceMap: true
         }),
-        new webpack.BannerPlugin({banner: 'Banner', raw: true, entryOnly: false })
+        new webpack.BannerPlugin({
+          banner: 'require("source-map-support").install();', 
+          raw: true, 
+          entryOnly: false 
+        })
     ],
 };
