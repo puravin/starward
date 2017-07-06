@@ -91,7 +91,7 @@ module.exports = [
       libraryTarget: 'commonjs2'
     },
     module: {
-      loaders: commonLoaders.concat({
+      rules: commonLoaders.concat({
           test: /\.css$/,
           loader: 'css/locals?modules&importLoaders=1'
       })
