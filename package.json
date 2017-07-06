@@ -57,7 +57,7 @@
     "express": "^4.13.4",
     "express-flash": "0.0.2",
     "express-session": "^1.14.1",
-    "extract-text-webpack-plugin": "^1.0.1",
+    "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "^0.9.0",
     "graphql_json": "^1.0.0",
     "helmet": "^2.1.2",

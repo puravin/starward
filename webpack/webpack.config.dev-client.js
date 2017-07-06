@@ -91,7 +91,7 @@ module.exports = {
       rules: commonLoaders
       .concat({
           test: /\.css$/,
-          loader: ['style', 'css']
+          use: ['style-loader', 'css-loader']
         })
     },
     postcss: () => {

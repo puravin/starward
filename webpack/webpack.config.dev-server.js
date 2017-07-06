@@ -34,7 +34,7 @@ module.exports = {
     module: {
       rules: commonLoaders.concat({
         test: /\.css$/,
-        loader: 'css/locals?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+        use: 'css/locals?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
       })
     },
     resolve: {
