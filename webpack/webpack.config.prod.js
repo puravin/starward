@@ -48,7 +48,7 @@ module.exports = [
 
     },
     module: {
-      loaders: commonLoaders.concat(
+      rules: commonLoaders.concat(
         {
           test: /\.scss$/i,
           loader: ExtractTextPlugin.extract(['css','sass','import-glob'])

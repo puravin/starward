@@ -32,7 +32,7 @@ module.exports = {
       includePaths: [ '../public/assets/sass' ]
     },
     module: {
-      loaders: commonLoaders.concat({
+      rules: commonLoaders.concat({
         test: /\.css$/,
         loader: 'css/locals?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
       })

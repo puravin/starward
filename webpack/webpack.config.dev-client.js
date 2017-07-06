@@ -88,7 +88,7 @@ module.exports = {
       includePaths: [ path.join( __dirname, '..', 'public/assets/sass') ]
     },
     module: {
-      loaders: commonLoaders
+      rules: commonLoaders
       .concat({
           test: /\.css$/,
           loader: ['style', 'css']
