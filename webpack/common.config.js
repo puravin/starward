@@ -46,10 +46,6 @@ module.exports = {
       exclude: path.join(__dirname, '..', 'node_modules')
     },
     {
-      test: /\.json$/,
-      loader: 'json-loader'
-    },
-    {
       test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
       loader: "url-loader?limit=10000&mimetype=application/font-woff"
     },
