@@ -116,7 +116,8 @@ module.exports = [
         new webpack.IgnorePlugin(/vertx/),
         new webpack.optimize.UglifyJsPlugin({
           compressor: {
-            warnings: false
+            warnings: false,
+            drop_console: true
           }
         }),
         new webpack.BannerPlugin({banner: 'Banner', raw: true, entryOnly: false })
