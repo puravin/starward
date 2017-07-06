@@ -97,8 +97,9 @@ module.exports = [
       })
     },
     resolve: {
-      root: [path.join(__dirname, '..', 'app')],
-      extensions: ['', '.js', '.jsx', '.css']
+      modules: [path.join(__dirname, '..', 'app')],
+      extensions: ['', '.js', '.jsx', '.css'],
+      moduleExtensions: ['-loader']
     },
     externals: externals,
     plugins: [
