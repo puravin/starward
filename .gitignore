@@ -61,5 +61,8 @@ public/assets/sass/*/*/*/.DS_Store
 compiled
 config/app.js
 
+# yarn
+yarn.lock
+
 # Webstorm
 .idea
