@@ -107,6 +107,9 @@ module.exports = {
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
-        new webpack.EnvironmentPlugin(['NODE_ENV'])
+        new webpack.EnvironmentPlugin(['NODE_ENV']),
+        new webpack.optimize.UglifyJsPlugin({
+          sourceMap: true
+        }),
     ],
 };
