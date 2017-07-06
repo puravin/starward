@@ -34,13 +34,6 @@ module.exports = {
     module: {
       rules: commonLoaders.concat(
       {
-        test: /\.scss$/,
-        loader: 'sass-loader',
-        options: {
-          includePaths: ['../public/assets/sass']
-        }
-      },
-      {
         test: /\.css$/,
         use: 'css/locals?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
       })
@@ -54,6 +47,13 @@ module.exports = {
     },
     externals: externals,
     plugins: [
+        new webpack.LoaderOptionsPlugin(
+        {
+          loader: 'sass-loader',
+          options: {
+            includePaths: [ path.join( __dirname, '..', 'public/assets/sass') ]
+          }
+        }),
         new webpack.EnvironmentPlugin(['NODE_ENV']),
         new webpack.IgnorePlugin(/vertx/),
         new webpack.optimize.UglifyJsPlugin({

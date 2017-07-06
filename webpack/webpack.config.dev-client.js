@@ -91,20 +91,10 @@ module.exports = {
       rules: commonLoaders
       .concat(
         {
-          test: /\.scss$/,
-          loader: 'sass-loader',
-          options: {
-            includePaths: [ path.join( __dirname, '..', 'public/assets/sass') ]
-          }
-        },
-        {
           test: /\.css$/,
           use: ['style-loader', 'css-loader']
-        },
-        {
-
         }
-        )
+      )
     },
     resolve: {
       modules: [
@@ -114,7 +104,14 @@ module.exports = {
       extensions: ['*', '.js', '.jsx', '.css']
     },
     plugins: [
-        new webpack.LoaderOptionsPlugin({
+        new webpack.LoaderOptionsPlugin(
+        {
+          loader: 'sass-loader',
+          options: {
+            includePaths: [ path.join( __dirname, '..', 'public/assets/sass') ]
+          }
+        },
+        {
           loader: 'postcss-loader',
           options: {
             plugins: (loader) => [
