@@ -56,7 +56,7 @@ module.exports = [
       )
     },
     resolve: {
-      root: [path.join(__dirname, '..', 'app')],
+      modules: [path.join(__dirname, '..', 'app')],
       extensions: ['', '.js', '.jsx', '.css']
     },
     plugins: [
@@ -98,8 +98,7 @@ module.exports = [
     },
     resolve: {
       modules: [path.join(__dirname, '..', 'app')],
-      extensions: ['', '.js', '.jsx', '.css'],
-      moduleExtensions: ['-loader']
+      extensions: ['', '.js', '.jsx', '.css']
     },
     externals: externals,
     plugins: [
