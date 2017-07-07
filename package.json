@@ -27,7 +27,8 @@
     "null-loader": "^0.1.1",
     "react-addons-test-utils": "^15.4.1",
     "react-transform-catch-errors": "^1.0.2",
-    "redux-mock-store": "1.1.2"
+    "redux-mock-store": "1.1.2",
+    "webpack-bundle-analyzer": "^2.8.2"
   },
   "engines": {
     "node": "5.x"

@@ -2,6 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 var hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true';
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 var commonConfig = require('./common.config');
 var assetsPath = commonConfig.output.assetsPath;
@@ -126,5 +127,8 @@ module.exports = {
         new webpack.optimize.UglifyJsPlugin({
           sourceMap: true
         }),
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'static'
+        })
     ],
 };

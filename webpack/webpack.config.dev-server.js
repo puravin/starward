@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 var commonConfig = require('./common.config');
 
@@ -63,6 +64,9 @@ module.exports = {
           banner: 'require("source-map-support").install();', 
           raw: true, 
           entryOnly: false 
+        }),
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'static'
         })
     ],
 };
