@@ -1,6 +1,9 @@
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+// remove for main prodution build - TODO: add argument to activate
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 var commonConfig = require('./common.config');
 var commonLoaders = commonConfig.commonLoaders;
@@ -34,15 +37,16 @@ module.exports = [
      */
     // SourceMap without column-mappings
     devtool: 'cheap-module-source-map',
-    context: path.join(__dirname, '..', 'app'),
+    context: path.join(__dirname, '..'),
     entry: {
-      app: ['./client']
+      app: ['./app/client']
     },
     output: {
       // The output directory as absolute path
-      path: assetsPath,
+      path: path.join(assetsPath, 'build'),
       // The filename of the entry chunk as relative path inside the output.path directory
-      filename: '[name].js',
+      filename: '[name].[chunkhash].js',
+      chunkFilename: '[name].[chunkhash].js',
       // The output path from the view of the Javascript
       publicPath: publicPath
 
@@ -66,70 +70,56 @@ module.exports = [
       extensions: ['*', '.js', '.jsx', '.css']
     },
     plugins: [
+        new webpack.optimize.CommonsChunkPlugin({
+          name: "vendor",
+          minChunks: function (module) {
+            // This prevents stylesheet resources with the .css or .scss extension
+            // from being moved from their original chunk to the vendor chunk
+            if(module.resource && (/^.*\.(css|scss)$/).test(module.resource)) {
+              return false;
+            }
+            // this assumes your vendor imports exist in the node_modules directory
+            return module.context && module.context.indexOf("node_modules") !== -1;
+          }
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+          name: "manifest",
+          filename: 'manifest.js',
+          chunks: ["vendor"],
+          minChunks: Infinity
+        }),
+        new ChunkManifestPlugin({
+          filename: 'manifest.json',
+          manifestVariable: 'webpackManifest',
+          inlineManifest: false
+        }),
         // extract inline css from modules into separate files
         new ExtractTextPlugin({
           filename: '/css/styles.css',
           disable: false,
           allChunks: true 
         }),
-        new webpack.optimize.UglifyJsPlugin({
-          compressor: {
-            warnings: false
-          }
+        new webpack.LoaderOptionsPlugin({
+          minimize: true,
+          debug: false
         }),
-        new webpack.EnvironmentPlugin(['NODE_ENV'])
-    ],
-  }, {
-    // The configuration for the server-side rendering
-    name: 'server-side rendering',
-    context: path.join(__dirname, '..', 'app'),
-    entry: {
-      server: '../server/index'
-    },
-    target: 'node',
-    node: {
-      __dirname: false
-    },
-    devtool: 'sourcemap',
-    output: {
-      // The output directory as absolute path
-      path: distPath,
-      // The filename of the entry chunk as relative path inside the output.path directory
-      filename: 'server.js',
-      // The output path from the view of the Javascript
-      publicPath: publicPath,
-      libraryTarget: 'commonjs2'
-    },
-    module: {
-      rules: commonLoaders.concat({
-          test: /\.css$/,
-          use: 'css/locals?modules&importLoaders=1'
-      })
-    },
-    resolve: {
-      modules: [
-        path.join(__dirname, '..', 'app'),
-        'node_modules'
-      ],
-      extensions: ['*', '.js', '.jsx', '.css']
-    },
-    externals: externals,
-    plugins: [
-        // Order the modules and chunks by occurrence.
-        // This saves space, because often referenced modules
-        // and chunks get smaller ids.
         new webpack.EnvironmentPlugin(['NODE_ENV']),
-        new webpack.IgnorePlugin(/vertx/),
         new webpack.optimize.UglifyJsPlugin({
-          compressor: {
-            warnings: false,
-            drop_console: true
+          beautify: false,
+          mangle: {
+            screw_ie8: true,
+            keep_fnames: true
+          },
+          compress: {
+            screw_ie8: true,
+            warnings: false
+          },
+          output: {
+            comments: false
           }
         }),
-        new webpack.BannerPlugin({
-          banner: 'require("source-map-support").install();', 
-          raw: true, 
-          entryOnly: false 
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'static'
         })
     ],
   }

@@ -3,6 +3,12 @@ import Helmet from 'react-helmet';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { RouterContext } from 'react-router';
+import manifest from '../../public/assets/build/manifest.json';
+
+console.log('manifest vendor file', manifest['0']);
+console.log('manifest apps file', manifest['1']);
+const VENDOR = `/assets/build/${manifest['0']}`;
+const MAIN = `/assets/build/${manifest['1']}`;
 
 const createApp = (store, props) => {
   try {
@@ -17,7 +23,7 @@ const createApp = (store, props) => {
   }
 };
 
-const styles = process.env.NODE_ENV === 'production' ? '<link rel="stylesheet" href="/assets/css/styles.css">' : '';
+const styles = process.env.NODE_ENV === 'production' ? '<link rel="stylesheet" href="/assets/build/css/styles.css">' : '';
 
 const buildPage = ({ componentHTML, initialState, headAssets }) => {
   return `
@@ -33,7 +39,8 @@ const buildPage = ({ componentHTML, initialState, headAssets }) => {
     <div id="app">${componentHTML}</div>
     <script>window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}</script>
     <script src="https://cdn.polyfill.io/v2/polyfill.js?features=default,es6"></script>
-    <script type="text/javascript" charset="utf-8" src="/assets/app.js"></script>
+    <script type="text/javascript" charset="utf-8" src=${VENDOR}></script>
+    <script type="text/javascript" charset="utf-8" src=${MAIN}></script>
   </body>
 </html>`;
 };
